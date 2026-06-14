@@ -89,3 +89,11 @@
 - Persist the sound mute preference in localStorage and expose a compact TopBar mute toggle. Audio unlocks only after the first user gesture and fails silently if the browser blocks context startup.
 - Trigger gameplay sounds from previous-state comparisons, not renders: phase changes, score deltas, skip-count changes, ready toggles, duplicate attempts, countdown thresholds and winner reveal each play once per actual transition.
 - Keep player-phone audio quieter than host/shared display audio; countdown ticks are limited to the active player and shared display so spectator phones do not all tick together.
+
+## 2026-06-14 - Raspberry Pi OS clone-to-run setup
+
+- Add native Raspberry Pi OS setup scripts instead of making Docker mandatory. Local Python/Node keeps the same development flow as the existing Windows instructions while staying simple for a fresh clone.
+- Lower the backend package requirement to Python 3.11+ because Raspberry Pi OS Bookworm ships Python 3.11 and the backend code does not require Python 3.12-only syntax or dependencies.
+- Keep Node.js 20+ as the frontend minimum. The setup script installs Node.js 22 from NodeSource only when the system Node.js is missing or too old.
+- Generate `backend/.env` and `frontend/.env.local` from the Pi's detected LAN IP so QR links and API calls work from phones on the same Wi-Fi without source edits.
+- Protect existing hand-written env files: generated env files include a marker, and the script does not overwrite unmarked local files.

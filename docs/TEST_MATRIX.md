@@ -134,3 +134,13 @@
 | `& 'C:\Program Files\nodejs\node.exe' '.\node_modules\playwright\cli.js' test` from `frontend` | 5 tests passed |
 | In-app Browser visual inspection | Blocked by local bridge startup error `CreateProcessAsUserW failed: 5`; refreshed Playwright screenshots were used for visual review instead |
 | Backend Ruff/pytest | Not run in this pass; backend code was not changed |
+
+## Raspberry Pi OS Setup Slice
+
+| Area | Coverage | Status |
+| --- | --- | --- |
+| Fresh clone bootstrap | `scripts/setup-raspberry-pi.sh` installs apt packages, Node.js 20+/22, backend virtualenv, frontend dependencies, env files and migrations | Added |
+| Run command | `scripts/run-raspberry-pi.sh` starts backend and frontend together on `0.0.0.0` and prints local/LAN URLs | Added |
+| Shell syntax | Git Bash `bash -n scripts/setup-raspberry-pi.sh` and `bash -n scripts/run-raspberry-pi.sh`; both help commands checked | Passed |
+| Python compatibility | Backend package metadata lowered to Python 3.11+ for Raspberry Pi OS Bookworm; backend ruff and pytest run on local Python 3.12 | Passed locally; pending validation on actual Raspberry Pi OS |
+| Validation plan | Setup script runs backend `ruff`/`pytest` plus frontend `lint`/`test`/`build` unless `--skip-checks` is passed | Added |

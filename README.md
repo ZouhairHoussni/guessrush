@@ -4,9 +4,49 @@ GuessRush is a mobile-first, local party game built from the `TIMESUP_CODEX_MAST
 
 ## Prerequisites
 
-- Python 3.12+
+- Python 3.11+
 - Node.js 20+
 - Windows PowerShell
+
+For Raspberry Pi OS, use the one-command setup below; it checks and installs the needed system packages, Node.js, Python virtualenv dependencies, app env files, database migrations, and validation checks.
+
+## Raspberry Pi OS Fresh Clone Setup
+
+Recommended target: Raspberry Pi OS Bookworm, preferably 64-bit, with internet access and a user that can run `sudo`.
+
+```bash
+git clone https://github.com/ZouhairHoussni/guessrush.git
+cd guessrush
+bash scripts/setup-raspberry-pi.sh
+```
+
+The setup script:
+
+- installs apt packages needed for Python, Node, native npm builds, Git and TLS;
+- installs Node.js 22 from NodeSource if the system Node.js is missing or older than 20;
+- creates `backend/.venv` and installs the FastAPI backend with dev/test tools;
+- installs frontend dependencies with `npm ci`;
+- creates phone-ready `backend/.env` and `frontend/.env.local` using the Pi's LAN IP;
+- runs Alembic migrations and the backend/frontend validation checks.
+
+Start the app after setup:
+
+```bash
+bash scripts/run-raspberry-pi.sh
+```
+
+Then open the printed LAN URL, usually `http://<pi-lan-ip>:5173`, from phones on the same Wi-Fi.
+
+Useful options:
+
+```bash
+bash scripts/setup-raspberry-pi.sh --run
+bash scripts/setup-raspberry-pi.sh --host 192.168.1.42
+bash scripts/setup-raspberry-pi.sh --skip-checks
+bash scripts/setup-raspberry-pi.sh --no-apt
+```
+
+Use `--host` when the Pi has more than one network interface and the detected LAN IP is not the one phones should use. Use `--skip-checks` on a slow Pi after a previous successful setup.
 
 ## Backend
 

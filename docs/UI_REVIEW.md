@@ -169,3 +169,7 @@ Visible/code fixes made during review:
 - Kept active card text static during gameplay; only timer, buttons, score numbers and surrounding panels animate.
 - Confirmed no core gameplay, token, socket or route behavior changed; Playwright multi-context flows still passed.
 - Confirmed mute is a visible control and audio remains optional; every sound cue has an existing visual state change.
+
+## 2026-06-14 - Raspberry Pi OS setup scripts
+
+No user-facing UI changed in this slice. The work adds clone-to-run Raspberry Pi OS automation and documentation only, so the previous visual review remains applicable.
