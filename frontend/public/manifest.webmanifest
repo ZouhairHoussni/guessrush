@@ -1,0 +1,18 @@
+{
+  "name": "GuessRush",
+  "short_name": "GuessRush",
+  "description": "A bright local three-round party guessing game.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0077BD",
+  "theme_color": "#0077BD",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

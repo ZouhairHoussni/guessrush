@@ -1,0 +1,27 @@
+:root {
+  --brand-blue: #155eef;
+  --brand-blue-dark: #0b2e6f;
+  --brand-blue-soft: #eaf2ff;
+  --brand-yellow: #ffd23f;
+  --brand-yellow-hover: #ffc107;
+  --ink: #101828;
+  --muted: #667085;
+  --paper: #ffffff;
+  --soft-bg: #f8fafc;
+
+  --color-brand-blue-900: var(--brand-blue-dark);
+  --color-brand-blue-800: #0f3f8d;
+  --color-brand-blue-700: var(--brand-blue);
+  --color-brand-blue-600: #2e90fa;
+  --color-brand-blue-100: var(--brand-blue-soft);
+  --color-brand-yellow-500: var(--brand-yellow);
+  --color-brand-yellow-400: var(--brand-yellow-hover);
+  --color-brand-orange-500: #f79009;
+  --color-brand-red-500: #f04438;
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-paper: var(--paper);
+  --color-soft-bg: var(--soft-bg);
+  --color-white: #ffffff;
+  --color-success: #12b76a;
+}

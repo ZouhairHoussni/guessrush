@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title>GuessRush icon</title>
+  <rect width="512" height="512" rx="112" fill="#0077BD"/>
+  <circle cx="256" cy="256" r="194" fill="#DDF4FF" opacity=".22"/>
+  <path d="M143 130h226v64c0 38-28 72-74 91 46 19 74 53 74 91v64H143v-64c0-38 28-72 74-91-46-19-74-53-74-91v-64Z" fill="#FFFDF7" stroke="#10243A" stroke-width="24" stroke-linejoin="round"/>
+  <path d="M183 170h146v18c0 35-33 63-73 80-40-17-73-45-73-80v-18Z" fill="#FFD21F"/>
+  <path d="M256 295c40 17 73 45 73 80v25H183v-25c0-35 33-63 73-80Z" fill="#FFD21F"/>
+  <path d="M218 256h76M218 294h76" stroke="#10243A" stroke-width="20" stroke-linecap="round"/>
+</svg>
