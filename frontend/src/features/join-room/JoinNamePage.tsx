@@ -56,12 +56,14 @@ export function JoinNamePage() {
   }
 
   return (
-    <PageShell narrow>
-      <div className="min-h-[calc(100vh-2.5rem)] space-y-8">
+    <PageShell narrow fullHeight>
+      <div className="flex h-full min-h-0 flex-col justify-center gap-4">
         <TopBar code={code} />
-        <Panel variant="hero">
+        <Panel variant="hero" className="p-5">
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-brand-blue-800">Room</p>
-          <h1 className="font-display text-5xl font-bold tracking-[0.14em]">{code}</h1>
+          <h1 className="font-display text-[clamp(2.8rem,14vw,4rem)] font-bold leading-none tracking-[0.14em]">
+            {code}
+          </h1>
           <p className="mt-2 font-semibold text-muted">
             {roomQuery.data
               ? `${roomQuery.data.teamCount} teams, ${roomQuery.data.turnDurationSeconds}s turns`
@@ -70,11 +72,11 @@ export function JoinNamePage() {
         </Panel>
 
         {existingToken && !savedSeatQuery.error ? (
-          <Panel variant="soft" className="space-y-4">
+          <Panel variant="soft" className="space-y-3 p-4 sm:p-5">
             <div className="flex items-center gap-3">
               <CheckCircle2 className="text-brand-yellow-500" aria-hidden />
               <div>
-                <h2 className="font-display text-2xl font-bold">You are already in</h2>
+                <h2 className="font-display text-2xl font-bold leading-tight">You are already in</h2>
                 <p className="text-sm font-semibold text-white/78">
                   Continue with your saved player token.
                 </p>
@@ -92,13 +94,13 @@ export function JoinNamePage() {
             </LinkButton>
           </Panel>
         ) : (
-          <form onSubmit={onSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-3">
             <label className="block space-y-2">
               <span className="font-bold">Your name</span>
               <input
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                className="h-16 w-full rounded-[24px] border border-brand-blue-100 bg-paper px-4 text-xl font-bold text-ink shadow-panel"
+                className="h-14 w-full rounded-[22px] border border-brand-blue-100 bg-paper px-4 text-xl font-bold text-ink shadow-panel sm:h-16"
                 maxLength={40}
                 autoFocus
               />

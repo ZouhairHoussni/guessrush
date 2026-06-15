@@ -21,8 +21,11 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
   const winnerAccent = teamAccent(winners[0]?.colorKey ?? "yellow");
 
   return (
-    <div className="mx-auto grid max-w-5xl gap-4 pb-8 text-ink">
-      <Panel variant="hero" className="motion-winner-reveal relative overflow-hidden text-center">
+    <div className="mx-auto grid h-full min-h-0 max-w-5xl grid-rows-[auto_minmax(0,1fr)_auto_auto] gap-3 text-ink">
+      <Panel
+        variant="hero"
+        className="motion-winner-reveal relative overflow-hidden p-4 text-center sm:p-5"
+      >
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <span
             className={[
@@ -40,7 +43,7 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
           />
           <span
             className={[
-              "absolute left-1/2 top-6 h-28 w-28 -translate-x-1/2 rounded-full opacity-20",
+              "absolute left-1/2 top-4 h-20 w-20 -translate-x-1/2 rounded-full opacity-20",
               "motion-spark",
               winnerAccent.chip,
             ].join(" ")}
@@ -48,24 +51,25 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
         </div>
         <div
           className={[
-            "motion-shine-once relative mx-auto mb-4 grid h-20 w-20 place-items-center rounded-[28px]",
+            "motion-shine-once relative mx-auto mb-2 grid h-14 w-14 place-items-center rounded-[22px] sm:h-16 sm:w-16",
             winnerAccent.chip,
           ].join(" ")}
         >
-          {results?.isTie ? <Sparkles size={42} aria-hidden /> : <Crown size={42} aria-hidden />}
+          {results?.isTie ? <Sparkles size={32} aria-hidden /> : <Crown size={32} aria-hidden />}
         </div>
-        <p className="relative font-bold uppercase tracking-[0.16em] text-brand-blue-800">
+        <p className="relative text-xs font-bold uppercase tracking-[0.16em] text-brand-blue-800 sm:text-sm">
           Final results
         </p>
-        <h1 className="relative mt-2 font-display text-4xl font-bold sm:text-6xl">
+        <h1 className="relative mt-1 font-display text-[clamp(2rem,8vw,4rem)] font-bold leading-none">
           {results?.isTie ? "It is a tie!" : `${winnerText ?? "The table"} wins!`}
         </h1>
-        <p className="relative mx-auto mt-3 max-w-xl text-lg font-bold text-muted">
+        <p className="relative mx-auto mt-2 max-w-xl text-sm font-bold text-muted sm:text-base">
           Three rounds down. Same cards, new legends.
         </p>
       </Panel>
 
-      <section className="grid gap-3 sm:grid-cols-2">
+      <section className="min-h-0 overflow-auto pr-1">
+      <div className="grid gap-2 sm:grid-cols-2">
         {(results?.teams ?? snapshot.teams).map((team, index) => {
           const teamId = "teamId" in team ? team.teamId : team.id;
           const teamName = "teamName" in team ? team.teamName : team.name;
@@ -78,20 +82,20 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
               <article
                 data-testid="result-team"
                 className={[
-                  "relative overflow-hidden rounded-[26px] border-4 p-5",
+                  "relative overflow-hidden rounded-[22px] border-2 p-3 sm:p-4",
                   accent.card,
                   winner ? `${accent.leaderGlow} motion-score-highlight` : accent.glow,
                 ].join(" ")}
               >
                 <span className={["absolute inset-x-0 top-0 h-2", accent.stripe].join(" ")} />
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className={["font-display text-3xl font-bold", accent.text].join(" ")}>
+                  <h2 className={["font-display text-2xl font-bold sm:text-3xl", accent.text].join(" ")}>
                     {teamName}
                   </h2>
                   {winner ? (
                     <span
                       className={[
-                        "motion-leader-in rounded-full px-3 py-2 text-xs font-bold uppercase tracking-[0.12em]",
+                        "motion-leader-in rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em]",
                         accent.chip,
                       ].join(" ")}
                     >
@@ -101,7 +105,7 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
                 </div>
                 <p
                   className={[
-                    "mt-4 w-fit rounded-[24px] px-4 py-1 font-display text-7xl font-bold tabular-nums",
+                    "mt-2 w-fit rounded-[20px] px-4 py-0.5 font-display text-5xl font-bold tabular-nums sm:text-6xl",
                     accent.scoreZone,
                   ].join(" ")}
                 >
@@ -111,44 +115,10 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
             </AnimatedListItem>
           );
         })}
+      </div>
       </section>
 
-      {results ? (
-        <Panel variant="default" className="grid gap-3 bg-brand-blue-100 sm:grid-cols-3">
-          <article className="rounded-[22px] bg-paper p-4">
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-800">
-              Card magnet
-            </p>
-            <p className="mt-2 font-display text-2xl font-bold">
-              {results.mostCardsGuessed
-                ? `${results.mostCardsGuessed.memberName}: ${results.mostCardsGuessed.value}`
-                : "No cards"}
-            </p>
-          </article>
-          <article className="rounded-[22px] bg-paper p-4">
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-800">
-              Best turn
-            </p>
-            <p className="mt-2 font-display text-2xl font-bold">
-              {results.bestTurn
-                ? `${results.bestTurn.memberName}: ${results.bestTurn.points}`
-                : "No turn"}
-            </p>
-          </article>
-          <article className="rounded-[22px] bg-paper p-4">
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-800">
-              Closest round
-            </p>
-            <p className="mt-2 font-display text-2xl font-bold">
-              {results.closestRound
-                ? `Round ${results.closestRound.roundNumber}, ${results.closestRound.spread} apart`
-                : "No round"}
-            </p>
-          </article>
-        </Panel>
-      ) : null}
-
-      <Panel variant="soft" className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
+      <Panel variant="soft" className="grid gap-2 p-3 sm:grid-cols-[1fr_1fr_auto] sm:p-4">
         {canHost ? (
           <>
             <Button
@@ -156,7 +126,7 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
               pendingLabel="Starting rematch..."
               onClick={() => onRematch({ sameCards: true, sameTeams: true })}
             >
-              <RotateCcw size={20} aria-hidden />
+              <RotateCcw size={18} aria-hidden />
               Rematch
             </Button>
             <Button
@@ -169,17 +139,52 @@ export function ResultsPage({ snapshot, canHost, pending, onRematch }: ResultsPa
             </Button>
           </>
         ) : (
-          <p className="rounded-[20px] bg-paper px-4 py-3 text-center font-bold text-brand-blue-900 sm:col-span-2">
+          <p className="rounded-[18px] bg-paper px-4 py-2 text-center font-bold text-brand-blue-900 sm:col-span-2">
             Waiting for the host to choose the next game.
           </p>
         )}
         <LinkButton to="/" tone="secondaryOnLight">
           <span className="inline-flex items-center gap-2">
-            <Home size={20} aria-hidden />
+            <Home size={18} aria-hidden />
             Home
           </span>
         </LinkButton>
       </Panel>
+
+      {results ? (
+        <Panel variant="default" className="grid gap-2 bg-brand-blue-100 p-3 sm:grid-cols-3">
+          <article className="rounded-[18px] bg-paper p-3">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-800">
+              Card magnet
+            </p>
+            <p className="mt-1 font-display text-lg font-bold sm:text-xl">
+              {results.mostCardsGuessed
+                ? `${results.mostCardsGuessed.memberName}: ${results.mostCardsGuessed.value}`
+                : "No cards"}
+            </p>
+          </article>
+          <article className="rounded-[18px] bg-paper p-3">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-800">
+              Best turn
+            </p>
+            <p className="mt-1 font-display text-lg font-bold sm:text-xl">
+              {results.bestTurn
+                ? `${results.bestTurn.memberName}: ${results.bestTurn.points}`
+                : "No turn"}
+            </p>
+          </article>
+          <article className="rounded-[18px] bg-paper p-3">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-brand-blue-800">
+              Closest round
+            </p>
+            <p className="mt-1 font-display text-lg font-bold sm:text-xl">
+              {results.closestRound
+                ? `Round ${results.closestRound.roundNumber}, ${results.closestRound.spread} apart`
+                : "No round"}
+            </p>
+          </article>
+        </Panel>
+      ) : null}
     </div>
   );
 }

@@ -28,7 +28,7 @@ const toneClass: Record<ButtonTone, string> = {
 };
 
 const baseClass =
-  "pressable inline-flex min-h-12 items-center justify-center gap-2 rounded-[18px] px-5 py-3 text-center font-bold disabled:cursor-not-allowed";
+  "pressable inline-flex min-h-11 items-center justify-center gap-2 rounded-[16px] px-4 py-2.5 text-center font-bold disabled:cursor-not-allowed sm:min-h-12 sm:px-5 sm:py-3";
 
 export function Button({
   tone = "primary",

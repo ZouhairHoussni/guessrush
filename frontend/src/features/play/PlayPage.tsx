@@ -121,8 +121,8 @@ export function PlayPage() {
   }, [refetchRoom, snapshot?.room.phase, snapshot?.turn?.deadlineAt, snapshot?.turn?.serverTime]);
 
   return (
-    <PageShell>
-      <div className="space-y-5 pb-6">
+    <PageShell fullHeight>
+      <div className="flex h-full min-h-0 flex-col gap-3">
         <TopBar
           code={code}
           role={<RoleBadge>{canHost && !playerToken ? "Host" : "Player"}</RoleBadge>}
@@ -158,8 +158,9 @@ export function PlayPage() {
           message={rematchMutation.error instanceof Error ? rematchMutation.error.message : null}
         />
 
+        <div className="min-h-0 flex-1 overflow-hidden">
         {snapshot?.room.phase === "ROUND_INTRO" ? (
-          <MotionPage motionKey={`round-intro-${snapshot.room.currentRoundNumber}`}>
+          <MotionPage motionKey={`round-intro-${snapshot.room.currentRoundNumber}`} className="h-full min-h-0">
             <RoundIntroView
               snapshot={snapshot}
               canHost={canHost}
@@ -170,7 +171,7 @@ export function PlayPage() {
         ) : null}
 
         {snapshot?.room.phase === "TURN_READY" ? (
-          <MotionPage motionKey={`turn-ready-${snapshot.turn?.id ?? "syncing"}`}>
+          <MotionPage motionKey={`turn-ready-${snapshot.turn?.id ?? "syncing"}`} className="h-full min-h-0">
             <TurnReadyView
               snapshot={snapshot}
               isActivePlayer={active}
@@ -181,7 +182,7 @@ export function PlayPage() {
         ) : null}
 
         {snapshot?.room.phase === "TURN_LIVE" && active ? (
-          <MotionPage motionKey={`turn-live-${snapshot.turn?.id ?? "syncing"}`}>
+          <MotionPage motionKey={`turn-live-${snapshot.turn?.id ?? "syncing"}`} className="h-full min-h-0">
             <ActiveTurnView
               snapshot={snapshot}
               scorePending={scoreMutation.isPending}
@@ -193,13 +194,13 @@ export function PlayPage() {
         ) : null}
 
         {snapshot?.room.phase === "TURN_LIVE" && !active ? (
-          <MotionPage motionKey={`spectator-live-${snapshot.turn?.id ?? "syncing"}`}>
+          <MotionPage motionKey={`spectator-live-${snapshot.turn?.id ?? "syncing"}`} className="h-full min-h-0 overflow-auto">
             <SpectatorTurnView snapshot={snapshot} />
           </MotionPage>
         ) : null}
 
         {snapshot?.room.phase === "TURN_RECAP" ? (
-          <MotionPage motionKey={`turn-recap-${snapshot.turn?.id ?? "syncing"}`}>
+          <MotionPage motionKey={`turn-recap-${snapshot.turn?.id ?? "syncing"}`} className="h-full min-h-0">
             <TurnRecapView
               snapshot={snapshot}
               canConfirm={canHost || active}
@@ -213,7 +214,7 @@ export function PlayPage() {
         ) : null}
 
         {snapshot?.room.phase === "ROUND_SUMMARY" ? (
-          <MotionPage motionKey={`round-summary-${snapshot.room.currentRoundNumber}`}>
+          <MotionPage motionKey={`round-summary-${snapshot.room.currentRoundNumber}`} className="h-full min-h-0">
             <RoundSummaryView
               snapshot={snapshot}
               canHost={canHost}
@@ -224,7 +225,7 @@ export function PlayPage() {
         ) : null}
 
         {snapshot?.room.phase === "FINISHED" ? (
-          <MotionPage motionKey="finished-results">
+          <MotionPage motionKey="finished-results" className="h-full min-h-0">
             <ResultsPage
               snapshot={snapshot}
               canHost={canHost}
@@ -266,6 +267,7 @@ export function PlayPage() {
             </LinkButton>
           </Panel>
         ) : null}
+        </div>
       </div>
     </PageShell>
   );

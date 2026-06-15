@@ -19,7 +19,7 @@ export function ScoreStrip({ snapshot }: { snapshot: RoomSnapshot }) {
 
   return (
     <section
-      className="flex snap-x gap-2 overflow-x-auto pb-1"
+      className="flex snap-x gap-2 overflow-x-auto"
       aria-label="Scores"
       data-testid="score-strip"
     >
@@ -33,7 +33,7 @@ export function ScoreStrip({ snapshot }: { snapshot: RoomSnapshot }) {
             key={team.id}
             data-testid="team-score"
             className={[
-              "relative min-w-[140px] snap-start overflow-hidden rounded-[18px] border px-3 py-2 text-ink",
+              "relative min-w-[118px] snap-start overflow-hidden rounded-[16px] border px-3 py-1.5 text-ink sm:min-w-[140px] sm:py-2",
               accent.card,
               leading ? accent.leaderGlow : accent.glow,
               delta > 0 ? "motion-score-highlight" : "",
@@ -58,7 +58,7 @@ export function ScoreStrip({ snapshot }: { snapshot: RoomSnapshot }) {
             </div>
             <p
               className={[
-                "mt-1 w-fit rounded-2xl px-3 py-0.5 font-display text-3xl font-black tabular-nums",
+                "mt-1 w-fit rounded-2xl px-2.5 py-0.5 font-display text-2xl font-black tabular-nums sm:px-3 sm:text-3xl",
                 accent.scoreZone,
               ].join(" ")}
             >

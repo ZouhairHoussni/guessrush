@@ -44,6 +44,7 @@ export function ScoreBoard({ snapshot, compact = false }: ScoreBoardProps) {
             data-testid="team-score"
             className={[
               "relative overflow-hidden border-2",
+              compact ? "p-3" : "",
               accent.card,
               leading ? accent.leaderGlow : accent.glow,
               delta > 0 ? "motion-score-highlight" : "",
@@ -77,7 +78,9 @@ export function ScoreBoard({ snapshot, compact = false }: ScoreBoardProps) {
             </div>
             <p
               className={[
-                "mt-3 w-fit rounded-[20px] px-4 py-1 font-display text-5xl font-black tabular-nums",
+              compact
+                ? "mt-2 w-fit rounded-[18px] px-3 py-0.5 font-display text-4xl font-black tabular-nums"
+                : "mt-3 w-fit rounded-[20px] px-4 py-1 font-display text-5xl font-black tabular-nums",
                 accent.scoreZone,
               ].join(" ")}
             >

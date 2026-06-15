@@ -30,22 +30,24 @@ export function JoinCodePage() {
   }
 
   return (
-    <PageShell narrow>
-      <div className="flex min-h-[calc(100vh-2.5rem)] flex-col justify-between gap-8">
+    <PageShell narrow fullHeight>
+      <div className="flex h-full min-h-0 flex-col justify-between gap-4">
         <TopBar />
-        <form onSubmit={onSubmit} className="space-y-5">
-          <Panel variant="hero" className="text-center">
+        <form onSubmit={onSubmit} className="grid gap-4">
+          <Panel variant="hero" className="p-5 text-center">
             <p className="text-sm font-bold uppercase tracking-[0.14em] text-brand-blue-800">
               Join a game
             </p>
-            <h1 className="mt-2 font-display text-5xl font-bold">Enter room code</h1>
+            <h1 className="mt-2 font-display text-[clamp(2.5rem,12vw,4rem)] font-bold leading-none">
+              Enter room code
+            </h1>
             <p className="mt-2 font-semibold text-muted">Six characters from the host screen.</p>
           </Panel>
           <div className="space-y-2 text-center">
             <input
               value={code}
               onChange={(event) => setCode(cleanCode(event.target.value))}
-              className="h-20 w-full rounded-[26px] border border-brand-blue-100 bg-paper px-5 text-center font-display text-4xl font-bold tracking-[0.2em] text-ink shadow-panel"
+              className="h-16 w-full rounded-[24px] border border-brand-blue-100 bg-paper px-4 text-center font-display text-3xl font-bold tracking-[0.2em] text-ink shadow-panel sm:h-20 sm:text-4xl"
               inputMode="text"
               autoComplete="off"
               autoCapitalize="characters"

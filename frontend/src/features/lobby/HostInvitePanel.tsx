@@ -44,45 +44,48 @@ export function HostInvitePanel({ snapshot }: HostInvitePanelProps) {
   }
 
   return (
-    <Panel variant="hero" className="grid gap-4 p-5 sm:p-6 lg:grid-cols-[228px_1fr]">
+    <Panel
+      variant="hero"
+      className="grid grid-cols-[116px_minmax(0,1fr)] gap-3 p-3 sm:grid-cols-[148px_minmax(0,1fr)] sm:p-4 lg:grid-cols-[156px_minmax(0,1fr)]"
+    >
       <div
-        className="rounded-[24px] border border-brand-blue-100 bg-white p-3"
+        className="grid place-items-center rounded-[20px] border border-brand-blue-100 bg-white p-2"
         aria-label={`QR code for joining room ${snapshot.room.code}`}
       >
         <QRCodeSVG
           value={joinUrl}
-          size={196}
+          size={132}
           fgColor="#101828"
           bgColor="#FFFFFF"
           role="img"
           aria-label={`Join GuessRush room ${snapshot.room.code}`}
         />
       </div>
-      <div className="flex flex-col justify-between gap-5">
+      <div className="flex min-w-0 flex-col justify-between gap-3">
         <div>
-          <p className="flex items-center gap-2 text-sm font-bold uppercase tracking-[0.14em] text-brand-blue-800">
-            <QrCode size={18} aria-hidden />
+          <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-brand-blue-800 sm:text-sm">
+            <QrCode size={16} aria-hidden />
             Scan to join
           </p>
-          <h1 className="mt-2 font-display text-5xl font-bold tracking-[0.12em] text-brand-blue-900 sm:text-6xl">
+          <h1 className="mt-1 font-display text-[clamp(2.2rem,9vw,3.8rem)] font-bold leading-none tracking-[0.12em] text-brand-blue-900">
             {snapshot.room.code}
           </h1>
           {isLocalJoinUrl ? (
-            <p className="mt-3 max-w-md rounded-2xl bg-[#fff7ce] px-4 py-3 text-sm font-black text-ink">
+            <p className="mt-2 max-w-xl rounded-2xl bg-[#fff7ce] px-3 py-2 text-xs font-black text-ink sm:text-sm">
               Phone testing needs a LAN URL. Set VITE_PUBLIC_APP_URL to this computer's local IP.
             </p>
           ) : (
-            <p className="mt-3 max-w-md text-sm font-semibold text-muted">
+            <p className="mt-2 max-w-xl text-xs font-semibold text-muted sm:text-sm">
               Players on the same Wi-Fi can scan this QR and appear here instantly.
             </p>
           )}
         </div>
-        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-          <div className="min-w-0 rounded-2xl bg-soft px-4 py-3 text-sm font-bold text-muted">
+        <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
+          <div className="min-w-0 rounded-2xl bg-soft px-3 py-2 text-xs font-bold text-muted sm:text-sm">
             <span className="block truncate">{joinUrl}</span>
           </div>
-          <Button tone="secondaryOnLight" onClick={copyLink} className="whitespace-nowrap">
-            <Copy size={18} aria-hidden />
+          <Button tone="secondaryOnLight" onClick={copyLink} className="min-h-10 whitespace-nowrap py-2">
+            <Copy size={16} aria-hidden />
             {copied ? "Copied" : "Copy link"}
           </Button>
         </div>

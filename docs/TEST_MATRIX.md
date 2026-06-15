@@ -144,3 +144,13 @@
 | Shell syntax | Git Bash `bash -n scripts/setup-raspberry-pi.sh` and `bash -n scripts/run-raspberry-pi.sh`; both help commands checked | Passed |
 | Python compatibility | Backend package metadata lowered to Python 3.11+ for Raspberry Pi OS Bookworm; backend ruff and pytest run on local Python 3.12 | Passed locally; pending validation on actual Raspberry Pi OS |
 | Validation plan | Setup script runs backend `ruff`/`pytest` plus frontend `lint`/`test`/`build` unless `--skip-checks` is passed | Added |
+
+## Fullscreen Party Layout Pass
+
+| Area | Coverage | Status |
+| --- | --- | --- |
+| App shell | `PageShell` supports `100dvh` fullscreen mode with hidden page overflow and min-height grid/flex children | Added |
+| Host lobby | QR invite/status/team board/Start Game laid out in fixed viewport tracks; Host tools and Arrange teams collapsed by default | Passed by TypeScript/lint/unit tests; browser visual check blocked |
+| Player lobby | Joined/ready panels compacted; Ready action stays visible; team status collapses into internal scroll panel | Passed by TypeScript/lint/unit tests; browser visual check blocked |
+| Gameplay/results | Active turn, round summary and final results use compact viewport-fit layouts with fixed CTA rows | Passed by TypeScript/lint/unit tests; browser visual check blocked |
+| Browser viewport verification | `npm run e2e` blocked by locked `frontend/test-results/.last-run.json`; rerun with `--output=..\.tmp\pw-layout-results` reached web server startup but Chromium launch failed with sandbox `spawn EPERM`; elevated retry was rejected by environment quota | Blocked |

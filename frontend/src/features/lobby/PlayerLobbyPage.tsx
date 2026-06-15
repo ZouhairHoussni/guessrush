@@ -9,7 +9,6 @@ import { useSound } from "../../audio/useSound";
 import { TeamBoard } from "../../components/room/TeamBoard";
 import { AppLogo } from "../../components/ui/AppLogo";
 import { CardStatusBadge, ReadyBadge, RoleBadge, TeamBadge } from "../../components/ui/Badge";
-import { BottomActionBar } from "../../components/ui/BottomActionBar";
 import { Button, LinkButton } from "../../components/ui/Button";
 import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
 import { ConnectionNotice } from "../../components/ui/ConnectionBadge";
@@ -76,8 +75,8 @@ export function PlayerLobbyPage() {
   }
 
   return (
-    <PageShell>
-      <div className="space-y-5 pb-8">
+    <PageShell fullHeight>
+      <div className="flex h-full min-h-0 flex-col gap-3">
         <TopBar
           code={code}
           role={<RoleBadge>Player</RoleBadge>}
@@ -92,18 +91,20 @@ export function PlayerLobbyPage() {
         <InlineError message={room.error instanceof Error ? room.error.message : null} />
 
         {snapshot && me ? (
-          <>
-            <Panel variant="hero">
-              <div className="flex items-start gap-4">
-                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-[20px] bg-brand-yellow-500">
-                  <UserRound aria-hidden />
+          <div className="grid min-h-0 flex-1 grid-rows-[auto_auto_minmax(0,1fr)] gap-3">
+            <Panel variant="hero" className="p-4 sm:p-5">
+              <div className="flex items-center gap-3">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[18px] bg-brand-yellow-500">
+                  <UserRound size={22} aria-hidden />
                 </span>
-                <div>
-                  <p className="text-sm font-bold uppercase tracking-[0.14em] text-brand-blue-800">
+                <div className="min-w-0">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand-blue-800">
                     You joined
                   </p>
-                  <h1 className="font-display text-4xl font-bold">{me.displayName}</h1>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <h1 className="truncate font-display text-3xl font-bold sm:text-4xl">
+                    {me.displayName}
+                  </h1>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
                     {myTeam ? <TeamBadge>{myTeam.name}</TeamBadge> : null}
                     <ReadyBadge ready={me.ready} />
                     {snapshot.room.deckMode === "PERSONAL_CARDS" ? (
@@ -128,15 +129,18 @@ export function PlayerLobbyPage() {
             ) : setupPhase ? (
               <Panel
                 variant="soft"
-                className={previousReady === undefined ? "" : me.ready ? "motion-ready-on" : "motion-ready-off"}
+                className={[
+                  "p-4 sm:p-5",
+                  previousReady === undefined ? "" : me.ready ? "motion-ready-on" : "motion-ready-off",
+                ].join(" ")}
               >
                 <div className="mb-3 flex items-center gap-3">
-                  <CheckCircle2 className="text-brand-yellow-500" aria-hidden />
+                  <CheckCircle2 size={24} className="text-brand-yellow-500" aria-hidden />
                   <div>
-                    <h2 className="font-display text-2xl font-bold">
+                    <h2 className="font-display text-[clamp(1.5rem,7vw,2rem)] font-bold leading-tight">
                       {me.ready ? "You are ready" : "Ready check"}
                     </h2>
-                    <p className="text-sm font-semibold text-white/78">
+                    <p className="text-xs font-semibold text-white/78 sm:text-sm">
                       The host starts once everyone is ready.
                     </p>
                   </div>
@@ -150,25 +154,21 @@ export function PlayerLobbyPage() {
                     Add secret cards
                   </LinkButton>
                 ) : (
-                  <BottomActionBar
-                    secondary={
-                      <Button tone="secondary" onClick={() => setConfirmLeaveOpen(true)}>
-                        <LogOut size={18} aria-hidden />
-                        Leave
-                      </Button>
-                    }
-                    primary={
-                      <Button
-                        fullWidth
-                        pending={readyMutation.isPending}
-                        pendingLabel={me.ready ? "Updating..." : "Marking ready..."}
-                        sound={false}
-                        onClick={() => readyMutation.mutate()}
-                      >
-                        {me.ready ? "Not ready" : "I'm ready"}
-                      </Button>
-                    }
-                  />
+                  <div className="grid grid-cols-[auto_1fr] gap-3">
+                    <Button tone="secondary" onClick={() => setConfirmLeaveOpen(true)}>
+                      <LogOut size={18} aria-hidden />
+                      Leave
+                    </Button>
+                    <Button
+                      fullWidth
+                      pending={readyMutation.isPending}
+                      pendingLabel={me.ready ? "Updating..." : "Marking ready..."}
+                      sound={false}
+                      onClick={() => readyMutation.mutate()}
+                    >
+                      {me.ready ? "Not ready" : "I'm ready"}
+                    </Button>
+                  </div>
                 )}
                 <InlineError
                   message={readyMutation.error instanceof Error ? readyMutation.error.message : null}
@@ -176,7 +176,7 @@ export function PlayerLobbyPage() {
                 <InlineError
                   message={leaveMutation.error instanceof Error ? leaveMutation.error.message : null}
                 />
-                <p className="mt-3 rounded-2xl bg-white/12 px-4 py-3 text-sm font-bold text-white">
+                <p className="mt-3 rounded-2xl bg-white/12 px-3 py-2 text-xs font-bold text-white sm:text-sm">
                   {snapshot.room.deckMode === "PERSONAL_CARDS"
                     ? `${snapshot.deckStatus.submittedPlayerCount}/${snapshot.deckStatus.totalPlayerCount} players submitted cards.`
                     : `${snapshot.deckStatus.totalCardCount} Quick Play cards are ready.`}
@@ -203,14 +203,16 @@ export function PlayerLobbyPage() {
             )}
 
             {setupPhase ? (
-              <details className="rounded-[24px] border border-white/14 bg-white/10 p-4">
-                <summary className="cursor-pointer font-display text-xl font-bold text-white">
-                  Teams and ready status
-                </summary>
-                <div className="mt-3">
-                  <TeamBoard snapshot={snapshot} compact />
-                </div>
-              </details>
+              <div className="min-h-0 overflow-hidden">
+                <details className="max-h-full overflow-auto rounded-[20px] border border-white/14 bg-white/10 p-3">
+                  <summary className="cursor-pointer font-display text-lg font-bold text-white">
+                    Teams and ready status
+                  </summary>
+                  <div className="mt-3">
+                    <TeamBoard snapshot={snapshot} compact />
+                  </div>
+                </details>
+              </div>
             ) : (
               <TeamBoard snapshot={snapshot} compact />
             )}
@@ -224,7 +226,7 @@ export function PlayerLobbyPage() {
               onCancel={() => setConfirmLeaveOpen(false)}
               onConfirm={() => leaveMutation.mutate()}
             />
-          </>
+          </div>
         ) : null}
       </div>
     </PageShell>

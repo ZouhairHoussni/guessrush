@@ -33,16 +33,16 @@ function HostTeamEditor({
     return null;
   }
   return (
-    <Panel variant="soft">
-      <h2 className="font-display text-2xl font-bold">Arrange teams</h2>
-      <div className="mt-3 grid gap-3 md:grid-cols-2">
+    <Panel variant="soft" className="p-3 sm:p-4">
+      <h2 className="font-display text-xl font-bold">Arrange teams</h2>
+      <div className="mt-3 grid gap-2 md:grid-cols-2">
         {snapshot.members.map((member) => (
           <div
             key={member.id}
-            className="grid gap-3 rounded-[20px] bg-paper p-3 text-ink sm:grid-cols-[1fr_auto]"
+            className="grid gap-2 rounded-[18px] bg-paper p-3 text-ink sm:grid-cols-[1fr_auto]"
           >
             <div>
-              <p className="font-display text-xl font-bold">{member.displayName}</p>
+              <p className="font-display text-lg font-bold">{member.displayName}</p>
               <div className="mt-1 flex flex-wrap gap-1.5">
                 <ReadyBadge ready={member.ready} compact />
               </div>
@@ -55,7 +55,7 @@ function HostTeamEditor({
                   disabled={pending || member.teamId === team.id}
                   onClick={() => onMove(member, team.id)}
                   className={[
-                    "min-h-11 rounded-2xl px-3 py-2 text-xs font-bold",
+                    "min-h-10 rounded-2xl px-3 py-1.5 text-xs font-bold",
                     member.teamId === team.id
                       ? "bg-brand-yellow-500 text-ink"
                       : "bg-soft text-brand-blue-900",
@@ -143,8 +143,8 @@ export function HostLobbyPage() {
     : true;
 
   return (
-    <PageShell>
-      <div className="space-y-5 pb-8">
+    <PageShell fullHeight>
+      <div className="flex h-full min-h-0 flex-col gap-3">
         <TopBar
           code={code}
           role={<RoleBadge>Host</RoleBadge>}
@@ -159,7 +159,7 @@ export function HostLobbyPage() {
         <InlineError message={room.error instanceof Error ? room.error.message : null} />
 
         {snapshot ? (
-          <>
+          <div className="grid min-h-0 flex-1 grid-rows-[auto_auto_minmax(0,1fr)_auto] gap-3">
             {setupPhase ? <HostInvitePanel snapshot={snapshot} /> : null}
 
             {snapshot.room.phase === "CANCELLED" ? (
@@ -174,13 +174,13 @@ export function HostLobbyPage() {
                 </LinkButton>
               </Panel>
             ) : setupPhase ? (
-              <Panel variant="soft" className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
+              <Panel variant="soft" className="grid gap-3 p-3 sm:p-4 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/14 text-white">
-                    <UsersRound aria-hidden />
+                  <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white/14 text-white">
+                    <UsersRound size={20} aria-hidden />
                   </span>
                   <div>
-                    <h2 className="font-display text-2xl font-bold">Lobby</h2>
+                    <h2 className="font-display text-xl font-bold">Lobby</h2>
                     <p className="text-sm font-semibold text-white/78">
                       {snapshot.members.length} players joined.{" "}
                       {snapshot.room.deckMode === "PERSONAL_CARDS"
@@ -248,65 +248,68 @@ export function HostLobbyPage() {
                 </div>
               </Panel>
             )}
-            {setupPhase && teamAnnouncement ? (
-              <div
-                className="rounded-2xl bg-white/[0.92] px-4 py-3 text-sm font-bold text-brand-blue-900"
-                aria-live="polite"
-              >
-                {teamAnnouncement}
-              </div>
-            ) : null}
-            {setupPhase && snapshot.startStatus.blockers.length > 0 ? (
-              <div className="rounded-2xl bg-white/[0.92] px-4 py-3 text-sm font-bold text-ink">
-                {snapshot.startStatus.blockers.map((blocker) => (
-                  <p key={blocker}>{blocker}</p>
-                ))}
-              </div>
-            ) : setupPhase ? (
-              <p className="rounded-2xl bg-brand-yellow-500 px-4 py-3 text-sm font-bold text-ink">
-                Everyone is ready. Start moves the room to Round Intro.
-              </p>
-            ) : null}
-            <InlineError message={shuffleMutation.error instanceof Error ? shuffleMutation.error.message : null} />
-            <InlineError message={moveMutation.error instanceof Error ? moveMutation.error.message : null} />
-            <InlineError message={startMutation.error instanceof Error ? startMutation.error.message : null} />
-            <InlineError message={cancelMutation.error instanceof Error ? cancelMutation.error.message : null} />
-            <TeamBoard snapshot={snapshot} compact={setupPhase} />
-            {setupPhase && snapshot.members.length > 0 ? (
-              <details
-                className="rounded-[24px] border border-white/14 bg-white/10 p-4"
-                open={!snapshot.room.autoBalanceTeams}
-              >
-                <summary className="cursor-pointer font-display text-xl font-bold text-white">
-                  Arrange teams
-                </summary>
-                <div className="mt-3">
-                  <HostTeamEditor
-                    snapshot={snapshot}
-                    pending={moveMutation.isPending}
-                    onMove={(member, teamId) =>
-                      moveMutation.mutate({ memberId: member.id, teamId })
-                    }
-                  />
-                </div>
-              </details>
-            ) : null}
-            {setupPhase ? (
-              <BottomActionBar
-                primary={
-                  <Button
-                    pending={startMutation.isPending}
-                    pendingLabel="Starting game..."
-                    disabled={!snapshot.startStatus.canStart}
-                    onClick={() => startMutation.mutate()}
-                    fullWidth
+            <div className="min-h-0 overflow-hidden">
+              <div className="h-full min-h-0 overflow-auto pr-1">
+                {setupPhase && teamAnnouncement ? (
+                  <div
+                    className="mb-2 rounded-2xl bg-white/[0.92] px-3 py-2 text-xs font-bold text-brand-blue-900 sm:text-sm"
+                    aria-live="polite"
                   >
-                    <Play size={18} aria-hidden />
-                    Start game
-                  </Button>
-                }
-              />
-            ) : null}
+                    {teamAnnouncement}
+                  </div>
+                ) : null}
+                {setupPhase && snapshot.startStatus.blockers.length > 0 ? (
+                  <div className="mb-2 rounded-2xl bg-white/[0.92] px-3 py-2 text-xs font-bold text-ink sm:text-sm">
+                    {snapshot.startStatus.blockers.map((blocker) => (
+                      <p key={blocker}>{blocker}</p>
+                    ))}
+                  </div>
+                ) : setupPhase ? (
+                  <p className="mb-2 rounded-2xl bg-brand-yellow-500 px-3 py-2 text-xs font-bold text-ink sm:text-sm">
+                    Everyone is ready. Start moves the room to Round Intro.
+                  </p>
+                ) : null}
+                <TeamBoard snapshot={snapshot} compact={setupPhase} />
+                {setupPhase && snapshot.members.length > 0 ? (
+                  <details className="mt-2 max-h-[34dvh] overflow-auto rounded-[20px] border border-white/14 bg-white/10 p-3">
+                    <summary className="cursor-pointer font-display text-lg font-bold text-white">
+                      Arrange teams
+                    </summary>
+                    <div className="mt-3">
+                      <HostTeamEditor
+                        snapshot={snapshot}
+                        pending={moveMutation.isPending}
+                        onMove={(member, teamId) =>
+                          moveMutation.mutate({ memberId: member.id, teamId })
+                        }
+                      />
+                    </div>
+                  </details>
+                ) : null}
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <InlineError message={shuffleMutation.error instanceof Error ? shuffleMutation.error.message : null} />
+              <InlineError message={moveMutation.error instanceof Error ? moveMutation.error.message : null} />
+              <InlineError message={startMutation.error instanceof Error ? startMutation.error.message : null} />
+              <InlineError message={cancelMutation.error instanceof Error ? cancelMutation.error.message : null} />
+              {setupPhase ? (
+                <BottomActionBar
+                  primary={
+                    <Button
+                      pending={startMutation.isPending}
+                      pendingLabel="Starting game..."
+                      disabled={!snapshot.startStatus.canStart}
+                      onClick={() => startMutation.mutate()}
+                      fullWidth
+                    >
+                      <Play size={18} aria-hidden />
+                      Start game
+                    </Button>
+                  }
+                />
+              ) : null}
+            </div>
             <ConfirmDialog
               open={confirmEndOpen}
               title="End this room?"
@@ -317,7 +320,7 @@ export function HostLobbyPage() {
               onCancel={() => setConfirmEndOpen(false)}
               onConfirm={() => cancelMutation.mutate()}
             />
-          </>
+          </div>
         ) : null}
       </div>
     </PageShell>

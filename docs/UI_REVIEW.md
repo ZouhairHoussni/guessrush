@@ -173,3 +173,18 @@ Visible/code fixes made during review:
 ## 2026-06-14 - Raspberry Pi OS setup scripts
 
 No user-facing UI changed in this slice. The work adds clone-to-run Raspberry Pi OS automation and documentation only, so the previous visual review remains applicable.
+
+## 2026-06-14 - Fullscreen party layout pass
+
+Browser viewport verification could not complete in this local environment:
+
+- `npm run e2e` was blocked by `EPERM` writing `frontend/test-results/.last-run.json`.
+- A safer rerun with Playwright output redirected to `.tmp` avoided that file but Chromium launch failed with `spawn EPERM`.
+- The required elevated rerun was rejected by the environment quota, so live screenshots at `390x844` and `1440x900` were not captured in this session.
+
+Code-level review completed:
+
+| Viewport | Screen | Observations |
+| --- | --- | --- |
+| 390x844 | Player ready, join/name, active gameplay, round summary, final results | Fullscreen `PageShell` mode uses `100dvh`; default player roster is collapsed; active turn distributes timer/card/actions/score strip within the viewport; summary/results keep CTA rows outside internal scroll areas. |
+| 1440x900 | Host lobby / TV, active gameplay, round summary, final results | Host lobby uses fixed invite/status/team/start tracks; QR panel is horizontal and compact; Host tools and Arrange teams are collapsed; result/summary score grids scroll internally only when team count/content exceeds available height. |

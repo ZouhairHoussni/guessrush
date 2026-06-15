@@ -97,3 +97,10 @@
 - Keep Node.js 20+ as the frontend minimum. The setup script installs Node.js 22 from NodeSource only when the system Node.js is missing or too old.
 - Generate `backend/.env` and `frontend/.env.local` from the Pi's detected LAN IP so QR links and API calls work from phones on the same Wi-Fi without source edits.
 - Protect existing hand-written env files: generated env files include a marker, and the script does not overwrite unmarked local files.
+
+## 2026-06-14 - Fullscreen party layout pass
+
+- Main party/game screens now use a `PageShell` fullscreen mode based on `100dvh` with page-level overflow hidden. Normal host, player and gameplay flows should fit the viewport; secondary rosters/tools can scroll internally.
+- Keep host lobby Start Game in a reserved bottom row. QR invite, compact lobby status and teams remain visible above it, while Host tools and Arrange teams stay collapsed by default.
+- Keep the player ready action in the first viewport. Teams and ready status are collapsed by default and scroll inside their panel only when opened.
+- Round summary and final results preserve winner/leader visuals but use shorter hero areas, denser score cards and fixed CTA rows so the primary continuation action remains visible.

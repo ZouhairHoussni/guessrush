@@ -23,7 +23,7 @@ function TeamCard({
       variant="compact"
       className={[
         "relative overflow-hidden border-2",
-        compact ? "min-h-[118px]" : "min-h-[150px]",
+        compact ? "min-h-[96px] p-3" : "min-h-[132px]",
         accent.card,
         leading ? accent.leaderGlow : accent.glow,
       ].join(" ")}
@@ -32,7 +32,7 @@ function TeamCard({
       <div
         className={[
           "flex items-start justify-between gap-3 pt-1",
-          compact ? "mb-2" : "mb-3",
+          compact ? "mb-1.5" : "mb-3",
         ].join(" ")}
       >
         <div>
@@ -40,7 +40,7 @@ function TeamCard({
             <h3
               className={[
                 "font-display font-bold",
-                compact ? "text-xl" : "text-2xl",
+                compact ? "text-lg" : "text-2xl",
                 accent.text,
               ].join(" ")}
             >
@@ -57,20 +57,20 @@ function TeamCard({
               </span>
             ) : null}
           </div>
-          <p className="text-sm font-semibold text-muted">
+          <p className="text-xs font-semibold text-muted sm:text-sm">
             {team.members.length} players - {team.totalScore} points
           </p>
         </div>
         <span
           className={[
-            "grid h-10 w-10 place-items-center rounded-2xl",
+            compact ? "grid h-8 w-8 place-items-center rounded-xl" : "grid h-10 w-10 place-items-center rounded-2xl",
             leading ? accent.chip : accent.softChip,
           ].join(" ")}
         >
           {leading ? (
-            <Crown size={20} aria-label="Leading team" />
+            <Crown size={compact ? 16 : 20} aria-label="Leading team" />
           ) : (
-            <Users size={20} aria-hidden />
+            <Users size={compact ? 16 : 20} aria-hidden />
           )}
         </span>
       </div>
@@ -85,13 +85,13 @@ function TeamCard({
               key={member.id}
               data-testid="team-member"
               className={[
-                "rounded-2xl bg-white/[0.86] px-3 text-sm font-bold text-ink",
-                compact ? "py-1.5" : "py-2",
+            "rounded-2xl bg-white/[0.86] px-3 text-sm font-bold text-ink",
+            compact ? "py-1" : "py-2",
                 member.isMe ? "ring-2 ring-brand-yellow-500" : "",
               ].join(" ")}
             >
               <span className="block truncate">{member.displayName}</span>
-              <span className="mt-2 flex flex-wrap gap-1.5">
+              <span className={["flex flex-wrap gap-1.5", compact ? "mt-1" : "mt-2"].join(" ")}>
                 <ReadyBadge ready={member.ready} compact />
                 {showCardStatus ? (
                   <CardStatusBadge submitted={member.cardsSubmitted} compact />
@@ -118,7 +118,7 @@ export function TeamBoard({
     <div
       className={[
         "grid",
-        compact ? "gap-3 sm:grid-cols-2" : "gap-4 md:grid-cols-2 xl:grid-cols-4",
+        compact ? "gap-2 sm:grid-cols-2" : "gap-4 md:grid-cols-2 xl:grid-cols-4",
       ].join(" ")}
     >
       {snapshot.teams.map((team) => (

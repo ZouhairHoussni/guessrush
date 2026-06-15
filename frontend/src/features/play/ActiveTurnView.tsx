@@ -58,20 +58,20 @@ export function ActiveTurnView({
   const timerDanger = secondsLeft <= 3;
 
   return (
-    <section className="mx-auto flex max-w-3xl flex-col gap-4 py-1">
-      <div className="flex flex-wrap justify-center gap-2">
+    <section className="mx-auto flex h-full min-h-0 max-w-3xl flex-col justify-between gap-2 py-0">
+      <div className="flex flex-wrap justify-center gap-1.5">
         <TeamBadge colorKey={activeTeam?.colorKey}>{snapshot.turn?.activeTeamName}</TeamBadge>
-        <span className="rounded-full bg-white/12 px-4 py-2 text-sm font-bold text-white">
+        <span className="rounded-full bg-white/12 px-3 py-1.5 text-xs font-bold text-white sm:text-sm">
           {rule.label}
         </span>
-        <span className="rounded-full bg-white/12 px-4 py-2 text-sm font-bold text-white">
+        <span className="rounded-full bg-white/12 px-3 py-1.5 text-xs font-bold text-white sm:text-sm">
           {snapshot.turn?.cardsRemaining ?? 0} cards left
         </span>
-        <span className="rounded-full bg-white/12 px-4 py-2 text-sm font-bold text-white">
+        <span className="rounded-full bg-white/12 px-3 py-1.5 text-xs font-bold text-white sm:text-sm">
           +{snapshot.turn?.points ?? 0} this turn
         </span>
         {skipsAllowed !== null ? (
-          <span className="rounded-full bg-white/12 px-4 py-2 text-sm font-bold text-white">
+          <span className="rounded-full bg-white/12 px-3 py-1.5 text-xs font-bold text-white sm:text-sm">
             {skipsRemaining && skipsRemaining > 0 ? `${skipsRemaining} skip left` : "Skip used"}
           </span>
         ) : null}
@@ -79,7 +79,7 @@ export function ActiveTurnView({
 
       <div
         className={[
-          "motion-timer-ring mx-auto grid aspect-square h-24 place-items-center rounded-full border-[7px] text-center shadow-party sm:h-28",
+          "motion-timer-ring mx-auto grid aspect-square h-[clamp(4.7rem,18dvh,6.5rem)] place-items-center rounded-full border-[6px] text-center shadow-party",
           countdown.urgent
             ? "border-brand-red-500 text-ink"
             : "border-white text-brand-blue-900",
@@ -92,25 +92,25 @@ export function ActiveTurnView({
         aria-label={`${secondsLeft} seconds left`}
       >
         <span
-          className="grid h-[72%] w-[72%] place-items-center rounded-full bg-paper font-display text-5xl font-black tabular-nums"
+          className="grid h-[72%] w-[72%] place-items-center rounded-full bg-paper font-display text-[clamp(2rem,8vw,3.2rem)] font-black tabular-nums"
           aria-live="polite"
         >
           {timerLabel}
         </span>
       </div>
 
-      <div>
-        <Panel variant="hero" className="w-full text-center">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.16em] text-brand-blue-800">
+      <div className="min-h-0">
+        <Panel variant="hero" className="w-full p-4 text-center sm:p-5">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-brand-blue-800 sm:text-sm">
             Current card
           </p>
-          <h1 className="break-words font-display text-5xl font-bold leading-tight sm:text-7xl">
+          <h1 className="break-words font-display text-[clamp(2.25rem,10vw,4.8rem)] font-bold leading-[0.98]">
             <span data-testid="current-card-text">{snapshot.currentCardText ?? "Syncing..."}</span>
           </h1>
         </Panel>
       </div>
 
-      <div className="grid grid-cols-[0.85fr_1.15fr] gap-3">
+      <div className="grid grid-cols-[0.85fr_1.15fr] gap-2 sm:gap-3">
         <Button
           tone="secondary"
           fullWidth
@@ -119,10 +119,10 @@ export function ActiveTurnView({
           disabled={skipDisabled}
           sound={false}
           onClick={onSkip}
-          className="min-h-16 border-white bg-white/10 text-base"
+          className="min-h-14 border-white bg-white/10 text-sm sm:min-h-16 sm:text-base"
         >
           <span className="inline-flex items-center justify-center gap-2">
-            <SkipForward size={22} aria-hidden />
+            <SkipForward size={20} aria-hidden />
             {skipLabel}
           </span>
         </Button>
@@ -133,10 +133,10 @@ export function ActiveTurnView({
           disabled={actionDisabled}
           sound={false}
           onClick={onScore}
-          className="min-h-16 text-xl"
+          className="min-h-14 text-lg sm:min-h-16 sm:text-xl"
         >
           <span className="inline-flex items-center justify-center gap-2">
-            <CheckCircle2 size={24} aria-hidden />
+            <CheckCircle2 size={22} aria-hidden />
             Got it!
           </span>
         </Button>

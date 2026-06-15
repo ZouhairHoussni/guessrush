@@ -37,6 +37,18 @@ bash scripts/run-raspberry-pi.sh
 
 Then open the printed LAN URL, usually `http://<pi-lan-ip>:5173`, from phones on the same Wi-Fi.
 
+For a TV or Raspberry Pi display, launch Chromium in kiosk mode after the app is running:
+
+```bash
+chromium-browser --kiosk http://<pi-ip>:5173
+```
+
+If your image exposes Chromium as `chromium` instead, use:
+
+```bash
+chromium --kiosk http://<pi-ip>:5173
+```
+
 Useful options:
 
 ```bash
